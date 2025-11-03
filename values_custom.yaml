@@ -1,0 +1,21 @@
+nexus:
+  docker:
+    enabled: true
+    registries:
+      - host: nexus3.telna.in
+        secretName: nexus-local-tls  # if use same host as main ingress, then use same secret name as well 
+        port: 5000
+        path: /v2
+
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "4G"
+  hostPath: /
+  hostRepo: nexus3.telna.in
+  tls:
+    - secretName: nexus-local-tls
+      hosts:
+        - nexus3.telna.in

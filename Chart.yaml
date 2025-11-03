@@ -1,0 +1,7 @@
+apiVersion: v2
+appVersion: 3.64.0
+description: Telna Customized DEPRECATED Sonatype Nexus Repository Manager - Universal
+  Binary repository
+name: nexus-repository-manager
+type: application
+version: 64.2.0-telna.1
