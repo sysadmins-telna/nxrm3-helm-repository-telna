@@ -1,3 +1,9 @@
+image:
+  # Sonatype Official Public Image
+  repository: sonatype/nexus3
+  tag: 3.70.3
+  pullPolicy: IfNotPresent
+
 nexus:
   docker:
     enabled: true
@@ -19,3 +25,53 @@ ingress:
     - secretName: nexus-local-tls
       hosts:
         - nexus3.telna.in
+
+
+nexus:
+  docker:
+    enabled: true
+    registries:
+      - host: nexus.telna.in
+        secretName: par-prd-eks-1-nexus-1-tls # if use same host as main ingress.tls.secretName, then use same secret name as well 
+        port: 5000
+        path: /v2     #must be different than the main ingress.hostPath.        
+  resources:
+    requests:
+      cpu: 4
+      memory: 8Gi
+    limits:
+      cpu: 4
+      memory: 8Gi
+######################################################################################
+# For use external postgreSQL (Pro Version)
+######################################################################################
+# assume secret already created. 
+# kubectl create secret generic nexus-db \
+#   --from-literal=username='nexus' \
+#   --from-literal=password='supersecret' \
+#   -n your-namespace
+  env:
+    # Required DB settings (environment variable names from Sonatype’s Postgres guide)
+    - name: NEXUS_DATASTORE_NEXUS_JDBCURL
+      value: "jdbc:postgresql://host:5432/nexus?currentSchema=nexus"
+    - name: NEXUS_DATASTORE_NEXUS_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: nexus-db-secret
+          key: username
+    - name: NEXUS_DATASTORE_NEXUS_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: nexus-db-secret
+          key: password
+# copied from default-values, as list doesn't merge, it replaces, to prevent these are lost, have to copy them into here as well. 
+    - name: INSTALL4J_ADD_VM_PARAMS
+      value: |-
+        -Xms2703M -Xmx2703M
+        -XX:MaxDirectMemorySize=2703M
+        -XX:+UnlockExperimentalVMOptions
+        -XX:+UseCGroupMemoryLimitForHeap
+        -Djava.util.prefs.userRoot=/nexus-data/javaprefs
+
+    - name: NEXUS_SECURITY_RANDOMPASSWORD
+      value: "true"
