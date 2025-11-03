@@ -3,13 +3,13 @@ entries:
   nexus-repository-manager:
   - apiVersion: v2
     appVersion: 3.64.0
-    created: "2025-11-03T17:52:28.859072483-05:00"
+    created: "2025-11-03T18:00:09.121842668-05:00"
     description: Telna Customized DEPRECATED Sonatype Nexus Repository Manager - Universal
       Binary repository
-    digest: 39ca0c39c9c2155870aa61fc64be6405b39a1306e8be6ca389532abafc1c04a1
+    digest: 6fb3fea12a7f459a1099bb7d24dcdfd8e0b6125a4596649213a4c9f1a40ac348
     name: nexus-repository-manager
     type: application
     urls:
-    - https://<owner>.github.io/%3Crepo%3E/nexus-repository-manager-64.2.0-telna.1.tgz
+    - https://sysadmins-telna.github.io/helm-charts/nexus-repository-manager-64.2.0-telna.1.tgz
     version: 64.2.0-telna.1
-generated: "2025-11-03T17:52:28.857928092-05:00"
+generated: "2025-11-03T18:00:09.121176353-05:00"
